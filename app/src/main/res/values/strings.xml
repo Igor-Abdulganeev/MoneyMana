@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MoneyMana</string>
+    <string name="camera_access_denyded_text">Для полноценной работы приложения необходимо разрешение на использовании камеры</string>
+    <string name="check_amount">Сумма чека</string>
+    <string name="check_date">Дата чека</string>
+    <string name="camera_access_denided">Для возможности сканирования чеков приложению необходимо предоставить доступ к камере телефона</string>
+
+</resources>
