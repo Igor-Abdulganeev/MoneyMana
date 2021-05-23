@@ -1,46 +1,48 @@
-package ru.gorinih.moneymana.ui.camera
+package ru.gorinih.moneymana.presentation.ui.camera
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toRectF
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.NonCancellable.isActive
-import kotlinx.coroutines.channels.ticker
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import ru.gorinih.moneymana.data.camera.ManaCameraX
 import ru.gorinih.moneymana.databinding.FragmentCameraBinding
-import ru.gorinih.moneymana.ui.AccessPermissionsActivity
-import ru.gorinih.moneymana.ui.NavigationActivity
-import ru.gorinih.moneymana.utils.calculateMaxSide
+import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
+import ru.gorinih.moneymana.presentation.NavigationActivity
+import ru.gorinih.moneymana.presentation.ui.camera.adapter.CameraSpinAdapter
+import ru.gorinih.moneymana.presentation.ui.camera.viewmodel.CameraFragmentViewModel
+import ru.gorinih.moneymana.presentation.ui.camera.viewmodel.CameraFragmentViewModelFactory
+import ru.gorinih.moneymana.utils.calculateMinSide
 import java.util.concurrent.Executor
 
 class CameraFragment : Fragment() {
 
     private lateinit var _binding: FragmentCameraBinding
     private val binding get() = _binding
-    private var permissions: AccessPermissionsActivity? = null
-    private lateinit var barView: NavigationActivity
+    private lateinit var permissions: AccessPermissionsActivity
+    private lateinit var navigateView: NavigationActivity
 
     private lateinit var cameraX: ManaCameraX
-    private var executor: Executor? = null
+    private lateinit var executor: Executor
+
+    private lateinit var listAdapter: CameraSpinAdapter
+
+    private val cameraViewModel: CameraFragmentViewModel by viewModels {
+        CameraFragmentViewModelFactory(requireContext())
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         permissions = context as AccessPermissionsActivity
-        barView = context as NavigationActivity
+        navigateView = context as NavigationActivity
     }
 
     override fun onCreateView(
@@ -52,12 +54,28 @@ class CameraFragment : Fragment() {
         binding.root
     }
 
+    @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         executor = ContextCompat.getMainExecutor(requireContext())
+        bindSpinner()
+        onControlSet()
         onBindCameraX()
         onSurfaceSetting()
-        barView.setBarVisibility(View.GONE)
+    }
+
+    private fun onControlSet() {
+        navigateView.setBarVisibility(View.GONE)
+        binding.exitButton.setOnClickListener { activity?.onBackPressed() }
+    }
+
+    @InternalCoroutinesApi
+    private fun bindSpinner() {
+        cameraViewModel.getListCategories()
+        cameraViewModel.listSpinner.observe(viewLifecycleOwner, {
+            listAdapter = CameraSpinAdapter(requireContext(), it)
+            binding.categorySpinner.adapter = listAdapter
+        })
     }
 
     private fun onSurfaceSetting() {
@@ -127,7 +145,7 @@ class CameraFragment : Fragment() {
         window.top = window.bottom - 60
         canvas.drawRect(window, rectNoPaint)
 
-        val side: Int = binding.panelView.calculateMaxSide()
+        val side: Int = binding.panelView.calculateMinSide()
         window.set(
             calculateRect(
                 binding.overlay.width,
@@ -143,52 +161,30 @@ class CameraFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        when (permissions?.allPermissionsGranted()) {
+        when (permissions.allPermissionsGranted()) {
             true -> binding.flagPermissionCamera.visibility = View.GONE
             false -> binding.flagPermissionCamera.visibility = View.VISIBLE
         }
     }
 
-    override fun onDetach() {
-        executor = null
-        permissions = null
-        super.onDetach()
-    }
-
     private fun onBindCameraX() {
         cameraX = ManaCameraX(
             context = requireContext(),
-            executor = executor!!,
+            executor = executor,
             previewView = binding.cameraView,
             lifecycle = this
         )
         cameraX.qrCode.observe(viewLifecycleOwner, { qrc ->
             qrc?.let {
-//                lifecycleScope.launch { flashRect(rects,Color.RED,Color.GREEN) }
-                //ТЕКСТ СКАНА = t=20210315T180100&s=234.60&fn=9960440300119563&i=7611&fp=3036044891&n=1
-                val list = it.split("&")
-                val dateCheck = "${list[0].subSequence(8, 10)}" +
-                        ".${list[0].subSequence(6, 8)}" +
-                        ".${list[0].subSequence(2, 6)}" +
-                        " ${list[0].subSequence(11, 13)}" +
-                        ":${list[0].subSequence(13, 15)}"
-                val sum = list[1].substring(2)
-                // val fn = list[2].substring(3).toLong()
-                // val i = list[3].substring(2).toLong()
-                // val fp = list[4].substring(3).toLong()
-/*
-                scanningCheck = Check(
-                    id = 0,
-                    dateCheck = 0,
-                    category = Category(0, 0, ""),
-                    sumCheck = 0.00,
-                    fnCheck = fn,
-                    iCheck = i,
-                    fpCheck = fp
-                )
-*/
-                binding.dateTextedit.setText(dateCheck)
-                binding.moneyTextedit.setText(sum)
+                cameraViewModel.checkScan(it).apply {
+                    if (dateCheck != binding.dateTextedit.text.toString()
+                        || sumCheck != binding.moneyTextedit.text.toString()
+                    ) {
+                        navigateView.startVibration()
+                        binding.dateTextedit.setText(dateCheck)
+                        binding.moneyTextedit.setText(sumCheck)
+                    }
+                }
             }
         })
         cameraX.bindCamera()

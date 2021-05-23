@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MoneyMana">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="ru.gorinih.moneymana.presentation.ui.MainActivity"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

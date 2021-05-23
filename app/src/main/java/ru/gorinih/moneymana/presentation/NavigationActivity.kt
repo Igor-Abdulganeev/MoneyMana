@@ -1,5 +1,6 @@
-package ru.gorinih.moneymana.ui
+package ru.gorinih.moneymana.presentation
 
 interface NavigationActivity {
     fun setBarVisibility(visible: Int)
+    fun startVibration()
 }

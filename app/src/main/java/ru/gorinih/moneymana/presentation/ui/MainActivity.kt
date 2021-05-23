@@ -1,31 +1,36 @@
-package ru.gorinih.moneymana.ui
+package ru.gorinih.moneymana.presentation.ui
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.HapticFeedbackConstants
-import android.view.View
-import android.view.ViewStructure
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.transition.Visibility
+import androidx.core.content.getSystemService
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.databinding.ActivityMainBinding
-import ru.gorinih.moneymana.ui.camera.CameraFragment
-import ru.gorinih.moneymana.ui.categories.ManaCategoriesFragment
+import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
+import ru.gorinih.moneymana.presentation.NavigationActivity
+import ru.gorinih.moneymana.presentation.ui.camera.CameraFragment
+import ru.gorinih.moneymana.presentation.ui.categories.ManaCategoriesFragment
 
 class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationActivity {
 
     private lateinit var _binding: ActivityMainBinding
     private val binding get() = _binding
 
+    private lateinit var vibro: Vibrator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        vibro = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -89,6 +94,21 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
         binding.apply {
             bottomAppBar.visibility = visible
             cameraButton.visibility = visible
+        }
+    }
+
+    override fun startVibration() {
+        if (vibro.hasVibrator()) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    vibro.vibrate(400)
+                } else {
+                    vibro.vibrate(
+                        VibrationEffect.createOneShot(
+                            400,
+                            VibrationEffect.CONTENTS_FILE_DESCRIPTOR
+                        )
+                    )
+                }
         }
     }
 
