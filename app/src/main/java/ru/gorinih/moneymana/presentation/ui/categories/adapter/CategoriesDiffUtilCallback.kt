@@ -1,11 +1,11 @@
 package ru.gorinih.moneymana.presentation.ui.categories.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import ru.gorinih.moneymana.presentation.model.CategoryData
+import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
-class ManaCategoriesDiffUtilCallback(
-    private val oldList: List<CategoryData>,
-    private val newList: List<CategoryData>
+class CategoriesDiffUtilCallback(
+    private val oldList: List<CategoryPresentation>,
+    private val newList: List<CategoryPresentation>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 

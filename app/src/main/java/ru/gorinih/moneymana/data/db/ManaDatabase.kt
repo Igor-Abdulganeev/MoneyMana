@@ -27,7 +27,7 @@ import ru.gorinih.moneymana.presentation.model.CheckScan
 abstract class ManaDatabase : RoomDatabase() {
     abstract val checksDao: ChecksDAO
     abstract val categoriesDao: CategoriesDAO
-//    abstract val budgetDAO: BudgetDAO
+    abstract val budgetDAO: BudgetDAO
 
     companion object {
         @Volatile
@@ -76,9 +76,9 @@ abstract class ManaDatabase : RoomDatabase() {
             CategoryEntity(8, R.drawable.weight_lifter, "Спорт", true)
         )
         private val checkExample = listOf(
-            CheckEntity(1, 2, 19001, 550.00, 123, 456, 789),
-            CheckEntity(2, 5, 19001, 550.00, 123, 456, 789),
-            CheckEntity(3, 5, 19003, 1000.00, 123, 456, 789),
+            CheckEntity(1, 2, 18800, 19001, 550.00, 123, 456, 789),
+            CheckEntity(2, 5, 18799, 19001, 550.00, 123, 456, 789),
+            CheckEntity(3, 5, 17800, 19003, 1000.00, 123, 456, 789),
         )
 
 

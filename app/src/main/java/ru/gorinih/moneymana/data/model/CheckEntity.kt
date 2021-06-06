@@ -6,15 +6,16 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "checks",
-    indices = [Index("id")]
+    tableName = "checks"
 )
-class CheckEntity(
+data class CheckEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long? = null,
     @ColumnInfo(name = "id_category")
     val idCategory: Long,
+    @ColumnInfo(name = "day_check")
+    val dayCheck: Long,
     @ColumnInfo(name = "date_check")
     val dateCheck: Long,
     @ColumnInfo(name = "sum_check")

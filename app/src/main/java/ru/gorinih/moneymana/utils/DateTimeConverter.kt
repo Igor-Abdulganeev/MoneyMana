@@ -1,12 +1,8 @@
 package ru.gorinih.moneymana.utils
 
 import android.os.Build
-import ru.gorinih.moneymana.domain.model.Period
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -23,7 +19,7 @@ import java.util.*
  *
  *     getPeriod() - возвращает объект Period для 0 - текущий, для даты Long - в зависимости от даты
  *
- *     getFirstDay() и getLastDay - возвращают соответственно в формате Long первый и последний дни
+ *     getFirstDay() и getLastDay() - возвращают в формате Long соответственно первый и последний дни
  *     текущего месяца
  * */
 class DateTimeConverter {
@@ -47,6 +43,17 @@ class DateTimeConverter {
             LocalDateTime.parse(dateTime, format).toEpochSecond(ZoneOffset.UTC)
         }
 
+    fun setDateStringToLong(date: String): Long =
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            val dateFormat: Date =
+                SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(date)!!
+            dateFormat.time.div(1000)
+        } else {
+            val format = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.getDefault())
+            LocalDate.parse(date, format).toEpochDay()
+            //LocalDateTime.parse().toEpochSecond(ZoneOffset.UTC)
+        }
+
     fun setDateTimeLongToString(dateTime: Long): String =
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             val dateTimeLong = Date(dateTime * 1000)
@@ -56,7 +63,13 @@ class DateTimeConverter {
                 DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.getDefault())
             LocalDateTime.ofEpochSecond(dateTime, 0, ZoneOffset.UTC).format(formatDateTime)
         }
+/*
+data class Period(
+    val month: Int,
+    val year: Int
+)*/
 
+/*
     fun getPeriod(dateTime: Long): Period {
         val month: Int
         val year: Int
@@ -80,6 +93,7 @@ class DateTimeConverter {
         }
         return Period(month, year)
     }
+*/
 
     enum class DayType(val type: Int) {
         FirstDay(0),

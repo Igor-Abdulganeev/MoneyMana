@@ -24,4 +24,6 @@ interface ChecksDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChecksList(checkEntityList: List<CheckEntity>)
 
+    @Query("SELECT * FROM checks WHERE date_check=:dateCheck AND sum_check=:sumCheck")
+    fun testCheck(dateCheck: Long, sumCheck: Double): CheckEntity?
 }

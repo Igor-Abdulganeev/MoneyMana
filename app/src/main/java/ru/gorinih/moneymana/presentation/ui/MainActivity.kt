@@ -10,13 +10,12 @@ import android.view.HapticFeedbackConstants
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.databinding.ActivityMainBinding
 import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
 import ru.gorinih.moneymana.presentation.NavigationActivity
 import ru.gorinih.moneymana.presentation.ui.camera.CameraFragment
-import ru.gorinih.moneymana.presentation.ui.categories.ManaCategoriesFragment
+import ru.gorinih.moneymana.presentation.ui.categories.CategoriesFragment
 
 class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationActivity {
 
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(
-                    R.id.fragments_container, ManaCategoriesFragment.newInstance(),
+                    R.id.fragments_container, CategoriesFragment.newInstance(),
                     CATEGORIES_FRAGMENT
                 )
                 .commit()

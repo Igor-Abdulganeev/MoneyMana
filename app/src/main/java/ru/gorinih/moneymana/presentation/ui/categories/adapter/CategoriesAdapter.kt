@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.gorinih.moneymana.databinding.ItemManaBinding
-import ru.gorinih.moneymana.presentation.model.CategoryData
+import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
-class ManaCategoriesAdapter() : //(private val listener: (ManaCategory) -> Unit) :
-    RecyclerView.Adapter<ManaCategoryViewHolder>() {
+class CategoriesAdapter() : //(private val listener: (ManaCategory) -> Unit) :
+    RecyclerView.Adapter<CategoriesViewHolder>() {
 
-    private var items = listOf<CategoryData>()
+    private var items = listOf<CategoryPresentation>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManaCategoryViewHolder {
-        return ManaCategoryViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder {
+        return CategoriesViewHolder(
             ItemManaBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
@@ -21,14 +21,14 @@ class ManaCategoriesAdapter() : //(private val listener: (ManaCategory) -> Unit)
         )
     }
 
-    override fun onBindViewHolder(holder: ManaCategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
         holder.onBind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
 
-    fun bindItems(newItems: List<CategoryData>) {
-        val diffUtilCallback = ManaCategoriesDiffUtilCallback(items, newItems)
+    fun bindItems(newItems: List<CategoryPresentation>) {
+        val diffUtilCallback = CategoriesDiffUtilCallback(items, newItems)
         val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffUtilCallback)
         diffResult.dispatchUpdatesTo(this)
         items = newItems

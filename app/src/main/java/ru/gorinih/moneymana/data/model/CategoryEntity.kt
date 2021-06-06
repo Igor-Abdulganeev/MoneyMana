@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "categories"
 )
-class CategoryEntity(
+data class CategoryEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Long? = null,
@@ -16,5 +16,5 @@ class CategoryEntity(
     @ColumnInfo(name = "title_category")
     val categoryName: String,
     @ColumnInfo(name = "active")
-    val isActive: Boolean,
+    val isActive: Boolean
 )

@@ -10,17 +10,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toRectF
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import kotlinx.coroutines.InternalCoroutinesApi
+import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.data.camera.ManaCameraX
 import ru.gorinih.moneymana.databinding.FragmentCameraBinding
 import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
 import ru.gorinih.moneymana.presentation.NavigationActivity
+import ru.gorinih.moneymana.presentation.model.CategoryScan
 import ru.gorinih.moneymana.presentation.ui.camera.adapter.CameraSpinAdapter
 import ru.gorinih.moneymana.presentation.ui.camera.viewmodel.CameraFragmentViewModel
 import ru.gorinih.moneymana.presentation.ui.camera.viewmodel.CameraFragmentViewModelFactory
 import ru.gorinih.moneymana.utils.calculateMinSide
+import ru.gorinih.moneymana.utils.changeColor
 import java.util.concurrent.Executor
 
 class CameraFragment : Fragment() {
@@ -66,7 +70,32 @@ class CameraFragment : Fragment() {
 
     private fun onControlSet() {
         navigateView.setBarVisibility(View.GONE)
-        binding.exitButton.setOnClickListener { activity?.onBackPressed() }
+        with(binding) {
+            moneyTextedit.addTextChangedListener { enabledButton() }
+            exitButton.setOnClickListener { activity?.onBackPressed() }
+            confirmButton.setOnClickListener { addNewCheck() }
+        }
+    }
+
+    private fun addNewCheck() {
+        val selectedSpin = binding.categorySpinner.selectedItem as CategoryScan
+        cameraViewModel.addNewCheck(selectedSpin)
+        activity?.onBackPressed()
+    }
+
+    private fun enabledButton() {
+        with(binding) {
+            if (dateTextedit.text?.isNotBlank() == true &&
+                moneyTextedit.text?.isNotBlank() == true &&
+                moneyTextedit.text?.toString() != "0"
+            ) {
+                confirmButton.changeColor(requireContext(), R.color.primaryColor)
+                confirmButton.isEnabled = true
+            } else {
+                confirmButton.changeColor(requireContext(), R.color.light_grey)
+                confirmButton.isEnabled = false
+            }
+        }
     }
 
     @InternalCoroutinesApi
