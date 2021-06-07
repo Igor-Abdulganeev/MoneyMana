@@ -55,7 +55,7 @@ class CategoriesFragment() : Fragment() {
         binding.manaRecyclerView.adapter = categoriesAdapter
 
         binding.primarySettingsButton.setOnClickListener {
-            categoriesViewModel.ttt()
+            barView.startSettings()
         }
     }
 

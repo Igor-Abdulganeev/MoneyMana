@@ -16,6 +16,7 @@ import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
 import ru.gorinih.moneymana.presentation.NavigationActivity
 import ru.gorinih.moneymana.presentation.ui.camera.CameraFragment
 import ru.gorinih.moneymana.presentation.ui.categories.CategoriesFragment
+import ru.gorinih.moneymana.presentation.ui.categoriesmanager.CategoriesManager
 
 class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationActivity {
 
@@ -60,9 +61,17 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
                 throw(Throwable("Unknown any fragment"))
             }
         }
+    }
 
-        //  val mDb : ManaDatabase = ManaDatabase.getInstance(this)
-
+    override fun startSettings() {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragments_container,
+                CategoriesManager.newInstance(),
+                CATEGORIES_MANAGER_FRAGMENT
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onResume() {
@@ -117,8 +126,9 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
     companion object {
         private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private const val CATEGORIES_FRAGMENT = "ManaCategoriesFragment"
+        private const val CATEGORIES_FRAGMENT = "CategoriesFragment"
         private const val CAMERA_FRAGMENT = "CameraFragment"
+        private const val CATEGORIES_MANAGER_FRAGMENT = "CategoriesManager"
     }
 
 }

@@ -21,6 +21,8 @@ class CategoryRepositoryImpl(private val db: MDatabase) : CategoriesRepository {
        // return db.categoriesDao.getActualCategories(startDay, endDay, true)
     }
 */
+    override suspend fun getAllCategories(): Flow<List<CategoryEntity>> =
+        db.categoriesDao.getAllCategories()
 
     override suspend fun insertCategoriesList(items: List<CategoryEntity>) {
         db.categoriesDao.insertCategoriesList(items)

@@ -42,4 +42,7 @@ interface CategoriesDAO {
 
     @Query("SELECT :startDay AS start_time, :endDay AS end_time,  SUM(A.sum_budget) AS sum_budget, SUM(B.sum_check) AS sum_spent FROM categories A LEFT JOIN checks B ON A.id = B.id AND B.day_check BETWEEN :startDay AND :endDay  WHERE A.active = 1 ")
     fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation>
+
+    @Query("SELECT * FROM categories ORDER BY id ASC")
+    fun getAllCategories(): Flow<List<CategoryEntity>>
 }
