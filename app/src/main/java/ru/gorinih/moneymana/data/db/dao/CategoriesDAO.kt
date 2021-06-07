@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import ru.gorinih.moneymana.data.model.CategoryEntity
+import ru.gorinih.moneymana.presentation.model.BudgetPresentation
 import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
 @Dao
@@ -28,12 +29,17 @@ interface CategoriesDAO {
 //    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) as sum_check FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id WHERE active = :bool GROUP BY A.ID ORDER BY A.id ASC")
 //    fun getActualCategories( bool: Boolean): Flow<List<CategoryPresentation>>
 
-    //    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) AS sum_check, 0 AS sum_budget FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id WHERE A.active = :bool GROUP BY A.id ORDER BY A.id ASC")
-    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) AS sum_check, C.sum_budget FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id AND B.day_check BETWEEN :firstDay AND :lastDay INNER JOIN budget AS C ON C.start_time>=:firstDay AND C.end_time<=:lastDay WHERE A.active = :bool GROUP BY A.id ORDER BY A.id ASC")
+//    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) AS sum_check, 0 AS sum_budget FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id WHERE A.active = :bool GROUP BY A.id ORDER BY A.id ASC")
+//    fun getCategoriesWithSum(bool: Boolean): Flow<List<CategoryPresentation>>
+
+    //    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) AS sum_check, C.sum_budget FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id INNER JOIN budget AS C ON C.start_time>=:firstDay AND C.end_time<=:lastDay WHERE A.active = :bool GROUP BY A.id ORDER BY A.id ASC")
+    @Query("SELECT A.id, A.image_category, A.title_category, SUM(B.sum_check) AS sum_check, A.sum_budget FROM categories AS A LEFT JOIN checks as B ON B.id_category=A.id AND B.day_check BETWEEN :firstDay AND :lastDay WHERE A.active = :bool GROUP BY A.id ORDER BY A.id ASC")
     fun getCategoriesWithSum(
         bool: Boolean,
         firstDay: Long,
         lastDay: Long
     ): Flow<List<CategoryPresentation>>
 
+    @Query("SELECT :startDay AS start_time, :endDay AS end_time,  SUM(A.sum_budget) AS sum_budget, SUM(B.sum_check) AS sum_spent FROM categories A LEFT JOIN checks B ON A.id = B.id AND B.day_check BETWEEN :startDay AND :endDay  WHERE A.active = 1 ")
+    fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation>
 }

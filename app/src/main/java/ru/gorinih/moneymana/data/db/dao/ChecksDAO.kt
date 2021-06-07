@@ -11,19 +11,25 @@ import ru.gorinih.moneymana.data.model.CheckEntity
 @Dao
 interface ChecksDAO {
     //ManaRepositoryImpl
+/*
     @Query("SELECT * FROM checks ORDER BY id ASC")
     fun getAllChecks(): Flow<List<CheckEntity>>
+*/
 
     //ManaFragmentCategoryRepository
+/*
     @Query("SELECT * FROM checks WHERE id_category == :idCategory ORDER BY id ASC")
     fun getAllChecksFromCategory(idCategory: Long): Flow<List<CheckEntity>>?
+*/
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(checkEntity: CheckEntity)
 
+/*
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChecksList(checkEntityList: List<CheckEntity>)
+*/
 
-    @Query("SELECT * FROM checks WHERE date_check=:dateCheck AND sum_check=:sumCheck")
+    @Query("SELECT * FROM checks WHERE date_check=:dateCheck AND sum_check=:sumCheck LIMIT 1")
     fun testCheck(dateCheck: Long, sumCheck: Double): CheckEntity?
 }

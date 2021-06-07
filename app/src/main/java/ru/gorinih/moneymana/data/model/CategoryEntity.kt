@@ -16,5 +16,7 @@ data class CategoryEntity(
     @ColumnInfo(name = "title_category")
     val categoryName: String,
     @ColumnInfo(name = "active")
-    val isActive: Boolean
+    val isActive: Boolean,
+    @ColumnInfo(name = "sum_budget")
+    val sumBudget: Int
 )

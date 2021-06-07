@@ -1,6 +1,7 @@
 package ru.gorinih.moneymana.presentation.ui.categories
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,12 +50,12 @@ class CategoriesFragment() : Fragment() {
         })
         categoriesViewModel.budget.observe(viewLifecycleOwner, {
             binding.primarySettingsTextView.text =
-                getString(R.string.budget_settings, it.sum_budget, it.sum_remaining)
+                getString(R.string.budget_settings, it.sum_budget, it.sum_spent)
         })
         binding.manaRecyclerView.adapter = categoriesAdapter
 
         binding.primarySettingsButton.setOnClickListener {
-
+            categoriesViewModel.ttt()
         }
     }
 
@@ -66,7 +67,7 @@ class CategoriesFragment() : Fragment() {
     @InternalCoroutinesApi
     override fun onResume() {
         super.onResume()
-        categoriesViewModel.getBudget()
+        categoriesViewModel.getActualBudget()
         categoriesViewModel.getUserManaState()
     }
 

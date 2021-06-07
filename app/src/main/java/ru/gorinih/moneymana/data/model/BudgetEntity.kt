@@ -1,5 +1,6 @@
 package ru.gorinih.moneymana.data.model
 
+/*
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -18,3 +19,4 @@ data class BudgetEntity(
     @ColumnInfo(name = "sum_budget")
     val sumBudget: Int
 )
+*/

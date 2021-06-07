@@ -3,12 +3,13 @@ package ru.gorinih.moneymana.data.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import ru.gorinih.moneymana.data.db.ManaDatabase
+import ru.gorinih.moneymana.data.db.MDatabase
 import ru.gorinih.moneymana.data.model.CategoryEntity
 import ru.gorinih.moneymana.domain.CategoriesRepository
+import ru.gorinih.moneymana.presentation.model.BudgetPresentation
 import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
-class CategoryRepositoryImpl(private val db: ManaDatabase) : CategoriesRepository {
+class CategoryRepositoryImpl(private val db: MDatabase) : CategoriesRepository {
 
     /*
 
@@ -39,5 +40,19 @@ class CategoryRepositoryImpl(private val db: ManaDatabase) : CategoriesRepositor
                 lastDay
             )
         }
+
+    override suspend fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation> =
+        withContext(Dispatchers.IO) {
+            db.categoriesDao.getActualBudget(startDay, endDay)
+        }
+
+/*
+override suspend fun getCategoriesWithSum(): Flow<List<CategoryPresentation>> =
+    withContext(Dispatchers.IO) {
+        db.categoriesDao.getCategoriesWithSum(
+            true
+        )
+    }
+*/
 
 }

@@ -1,4 +1,5 @@
 package ru.gorinih.moneymana.data.db.dao
+/*
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -16,4 +17,4 @@ interface BudgetDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBudget(item: BudgetEntity)
-}
+}*/

@@ -1,5 +1,6 @@
 package ru.gorinih.moneymana.data.repository
 
+/*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -15,4 +16,5 @@ class BudgetRepositoryImpl(private val db: ManaDatabase): BudgetRepository {
     override suspend fun insertBudget(item: BudgetEntity) = withContext(Dispatchers.IO) {
         db.budgetDAO.insertBudget(item)
     }
-}
+
+}*/

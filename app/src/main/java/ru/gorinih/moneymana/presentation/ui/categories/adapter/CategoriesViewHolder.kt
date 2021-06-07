@@ -16,7 +16,7 @@ class CategoriesViewHolder(
             itemManaImageView.setImageResource(manaCategory.image_category)
             itemManaSumLimitTextView.text = manaCategory.sum_check?.toString() ?: "0"
             val sumRemained: Int = (manaCategory.sum_budget - (manaCategory.sum_check ?: 0)).toInt()
-/*
+
             val textRemained =
                 if (sumRemained >= 0) itemView.context.getString(R.string.text_remained)
                 else itemView.context.getString(R.string.text_overrun)
@@ -26,7 +26,6 @@ class CategoriesViewHolder(
             itemManaSumRemainedTextView.text =
                 itemView.context.getString(R.string.sum_remained, textRemained, sumRemained)
 
-*/
 
             itemManaCustomProgressBar.progress = sumRemained.getPercentage(manaCategory.sum_budget)
 

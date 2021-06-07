@@ -13,7 +13,9 @@ import androidx.core.graphics.toRectF
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.launch
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.data.camera.ManaCameraX
 import ru.gorinih.moneymana.databinding.FragmentCameraBinding
@@ -79,8 +81,12 @@ class CameraFragment : Fragment() {
 
     private fun addNewCheck() {
         val selectedSpin = binding.categorySpinner.selectedItem as CategoryScan
-        cameraViewModel.addNewCheck(selectedSpin)
-        activity?.onBackPressed()
+        lifecycleScope.launch {
+            if (cameraViewModel.addNewCheck(selectedSpin))
+                activity?.onBackPressed()
+            else
+                navigateView.startVibration()
+        }
     }
 
     private fun enabledButton() {

@@ -4,12 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import ru.gorinih.moneymana.data.model.CategoryEntity
 import ru.gorinih.moneymana.data.model.CheckEntity
 import ru.gorinih.moneymana.domain.CategoriesRepository
@@ -81,7 +78,8 @@ class CameraFragmentViewModel(
         )
     }
 
-    fun addNewCheck(categoryCheck: CategoryScan) {
+    //            dayCheck = dateTime.setDateStringToLong(newCheck.dateCheck.substring(0, 10)),
+    suspend fun addNewCheck(categoryCheck: CategoryScan): Boolean {
         val check = CheckEntity(
             id = null,
             idCategory = categoryCheck.id ?: 1,
@@ -92,24 +90,16 @@ class CameraFragmentViewModel(
             iCheck = newCheck.iCheck,
             fpCheck = newCheck.fpCheck
         )
-        if (!checkForReceipt(check.dateCheck, check.sumCheck)) {
-            insertCheck(check)
-        }
+        return insertCheck(check)
     }
 
-    private fun insertCheck(check: CheckEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private suspend fun insertCheck(check: CheckEntity): Boolean {
+        val job = viewModelScope.async(Dispatchers.IO) {
             repoCheck.insertCheck(check)
         }
+        return job.await()
     }
 
-    private fun checkForReceipt(dateCheck: Long, sumCheck: Double): Boolean {
-        var result = false
-        viewModelScope.launch(Dispatchers.IO) {
-            result = repoCheck.testCheck(dateCheck, sumCheck)
-        }
-        return result
-    }
 
     private fun setNewCheck(scanCheck: CheckScan) {
         newCheck = scanCheck

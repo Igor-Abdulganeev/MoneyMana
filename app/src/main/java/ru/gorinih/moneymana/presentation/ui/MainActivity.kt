@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
                 throw(Throwable("Unknown any fragment"))
             }
         }
+
+        //  val mDb : ManaDatabase = ManaDatabase.getInstance(this)
+
     }
 
     override fun onResume() {

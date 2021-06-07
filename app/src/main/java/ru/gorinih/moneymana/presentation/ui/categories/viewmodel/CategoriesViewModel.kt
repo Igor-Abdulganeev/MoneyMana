@@ -1,23 +1,22 @@
 package ru.gorinih.moneymana.presentation.ui.categories.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import ru.gorinih.moneymana.data.model.BudgetEntity
-import ru.gorinih.moneymana.domain.BudgetRepository
 import ru.gorinih.moneymana.domain.CategoriesRepository
 import ru.gorinih.moneymana.presentation.model.BudgetPresentation
 import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 import ru.gorinih.moneymana.utils.DateTimeConverter
 
 class CategoriesViewModel(
-    private val repoCategory: CategoriesRepository, private val repoBudget: BudgetRepository
-) : ViewModel() {
+    private val repoCategory: CategoriesRepository
+)
+//, private val repoBudget: BudgetRepository)
+    : ViewModel() {
     private val _manaCategories = MutableLiveData<List<CategoryPresentation>>()
     val manaCategories: LiveData<List<CategoryPresentation>> get() = _manaCategories
 
@@ -26,12 +25,44 @@ class CategoriesViewModel(
 
     private val dateTime = DateTimeConverter()
 
-    @InternalCoroutinesApi
+    fun ttt() {
+        viewModelScope.launch {
+            repoCategory.getAllCategoriesName(true)
+                .collect {
+                    Log.d("QWERTY", "size = ${it.size}")
+                    it.forEach {
+                        Log.d("QWERTY", "${it.categoryName}")
+                    }
+                }
+        }
+    }
+
     fun getUserManaState() {
         viewModelScope.launch {
             repoCategory.getCategoriesWithSum(
                 dateTime.getFirstDay(),
                 dateTime.getLastDay()
+            )
+                .collect {
+                    _manaCategories.value = it
+                }
+        }
+    }
+
+    fun getActualBudget() {
+        viewModelScope.launch {
+            repoCategory.getActualBudget(
+                dateTime.getFirstDay(),
+                dateTime.getLastDay()
+            ).collect {
+                _budget.value = it
+            }
+        }
+    }
+/*
+    fun getUserManaState() {
+        viewModelScope.launch {
+            repoCategory.getCategoriesWithSum(
             )
                 .filterNotNull()
                 .collect {
@@ -39,7 +70,9 @@ class CategoriesViewModel(
                 }
         }
     }
+*/
 
+/*
     private suspend fun insertNowBudget() =
         repoBudget.insertBudget(
             BudgetEntity(
@@ -49,7 +82,9 @@ class CategoriesViewModel(
                 0
             )
         )
+*/
 
+/*
     fun getBudget() {
         viewModelScope.launch {
             repoBudget.getActualBudget(dateTime.getFirstDay(), dateTime.getLastDay())
@@ -61,4 +96,5 @@ class CategoriesViewModel(
                 }
         }
     }
+*/
 }
