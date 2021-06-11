@@ -25,18 +25,6 @@ class CategoriesViewModel(
 
     private val dateTime = DateTimeConverter()
 
-    fun ttt() {
-        viewModelScope.launch {
-            repoCategory.getAllCategoriesName(true)
-                .collect {
-                    Log.d("QWERTY", "size = ${it.size}")
-                    it.forEach {
-                        Log.d("QWERTY", "${it.categoryName}")
-                    }
-                }
-        }
-    }
-
     fun getUserManaState() {
         viewModelScope.launch {
             repoCategory.getCategoriesWithSum(

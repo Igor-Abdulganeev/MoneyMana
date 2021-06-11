@@ -1,7 +1,6 @@
 package ru.gorinih.moneymana.presentation.ui.categories
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,7 +25,7 @@ class CategoriesFragment() : Fragment() {
     }
     private lateinit var categoriesAdapter: CategoriesAdapter
 
-    private lateinit var barView: NavigationActivity
+    private lateinit var navigation: NavigationActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,12 +39,9 @@ class CategoriesFragment() : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        barView.setBarVisibility(View.VISIBLE)
+        navigation.setBarVisibility(View.VISIBLE)
         categoriesAdapter = CategoriesAdapter()
         categoriesViewModel.manaCategories.observe(viewLifecycleOwner, {
-            it.forEach { r ->
-                println("${r.title_category} - ${r.image_category} - ${r.sum_check}")
-            }
             categoriesAdapter.bindItems(it)
         })
         categoriesViewModel.budget.observe(viewLifecycleOwner, {
@@ -55,13 +51,13 @@ class CategoriesFragment() : Fragment() {
         binding.manaRecyclerView.adapter = categoriesAdapter
 
         binding.primarySettingsButton.setOnClickListener {
-            barView.startSettings()
+            navigation.startSettings()
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        barView = context as NavigationActivity
+        navigation = context as NavigationActivity
     }
 
     @InternalCoroutinesApi

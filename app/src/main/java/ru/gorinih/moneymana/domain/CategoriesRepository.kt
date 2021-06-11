@@ -20,4 +20,6 @@ interface CategoriesRepository {
 
     suspend fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation>
 
+    suspend fun updateCategory(item: CategoryEntity)
+
 }

@@ -8,4 +8,6 @@
     <string name="sum_remained">%s: %d</string>
     <string name="text_remained">остаток</string>
     <string name="text_overrun">перерасход</string>
+    <string name="apply_text_button">применить</string>
+    <string name="checked_textview">активный</string>
 </resources>

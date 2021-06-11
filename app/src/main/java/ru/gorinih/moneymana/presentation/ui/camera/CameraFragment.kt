@@ -34,7 +34,7 @@ class CameraFragment : Fragment() {
     private lateinit var _binding: FragmentCameraBinding
     private val binding get() = _binding
     private lateinit var permissions: AccessPermissionsActivity
-    private lateinit var navigateView: NavigationActivity
+    private lateinit var navigation: NavigationActivity
 
     private lateinit var cameraX: ManaCameraX
     private lateinit var executor: Executor
@@ -48,7 +48,7 @@ class CameraFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         permissions = context as AccessPermissionsActivity
-        navigateView = context as NavigationActivity
+        navigation = context as NavigationActivity
     }
 
     override fun onCreateView(
@@ -71,7 +71,7 @@ class CameraFragment : Fragment() {
     }
 
     private fun onControlSet() {
-        navigateView.setBarVisibility(View.GONE)
+        navigation.setBarVisibility(View.GONE)
         with(binding) {
             moneyTextedit.addTextChangedListener { enabledButton() }
             exitButton.setOnClickListener { activity?.onBackPressed() }
@@ -85,7 +85,7 @@ class CameraFragment : Fragment() {
             if (cameraViewModel.addNewCheck(selectedSpin))
                 activity?.onBackPressed()
             else
-                navigateView.startVibration()
+                navigation.startVibration()
         }
     }
 
@@ -215,7 +215,7 @@ class CameraFragment : Fragment() {
                     if (dateCheck != binding.dateTextedit.text.toString()
                         || sumCheck != binding.moneyTextedit.text.toString()
                     ) {
-                        navigateView.startVibration()
+                        navigation.startVibration()
                         binding.dateTextedit.setText(dateCheck)
                         binding.moneyTextedit.setText(sumCheck)
                     }

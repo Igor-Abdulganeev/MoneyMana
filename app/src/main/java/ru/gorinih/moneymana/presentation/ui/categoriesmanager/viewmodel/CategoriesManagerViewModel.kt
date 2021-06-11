@@ -1,5 +1,6 @@
 package ru.gorinih.moneymana.presentation.ui.categoriesmanager.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,7 @@ class CategoriesManagerViewModel(private val repoCategories: CategoriesRepositor
         loadCategories()
     }
 
-    fun loadCategories() {
+    private fun loadCategories() {
         viewModelScope.launch {
             repoCategories.getAllCategories()
                 .map {
@@ -29,6 +30,12 @@ class CategoriesManagerViewModel(private val repoCategories: CategoriesRepositor
                 .collect {
                     _listCategories.value = it
                 }
+        }
+    }
+
+    suspend fun updateCategory(item: CategoryPresentation) {
+        viewModelScope.launch {
+            repoCategories.updateCategory(mapperCategoryPresentationToEntity(item))
         }
     }
 
@@ -44,4 +51,13 @@ class CategoriesManagerViewModel(private val repoCategories: CategoriesRepositor
         }
     }
 
+    private fun mapperCategoryPresentationToEntity(item: CategoryPresentation): CategoryEntity {
+        return CategoryEntity(
+            item.id,
+            item.image_category,
+            item.title_category,
+            item.sum_check == 1L,
+            item.sum_budget
+        )
+    }
 }
