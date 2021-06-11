@@ -1,9 +1,6 @@
 package ru.gorinih.moneymana.data.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.gorinih.moneymana.data.model.CategoryEntity
 import ru.gorinih.moneymana.presentation.model.BudgetPresentation
@@ -14,6 +11,9 @@ interface CategoriesDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategoriesList(categoryEntityList: List<CategoryEntity>)
+
+    @Update(entity = CategoryEntity::class, onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateCategory(category: CategoryEntity)
 
 /*
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -40,6 +40,9 @@ interface CategoriesDAO {
         lastDay: Long
     ): Flow<List<CategoryPresentation>>
 
-    @Query("SELECT :startDay AS start_time, :endDay AS end_time,  SUM(A.sum_budget) AS sum_budget, SUM(B.sum_check) AS sum_spent FROM categories A LEFT JOIN checks B ON A.id = B.id AND B.day_check BETWEEN :startDay AND :endDay  WHERE A.active = 1 ")
+    @Query("SELECT :startDay AS start_time, :endDay AS end_time,  SUM(A.sum_budget) AS sum_budget, SUM(B.sum_check) AS sum_spent FROM categories A LEFT JOIN checks B ON A.id = B.id_category AND B.day_check BETWEEN :startDay AND :endDay  WHERE A.active = 1 ")
     fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation>
+
+    @Query("SELECT * FROM categories ORDER BY id ASC")
+    fun getAllCategories(): Flow<List<CategoryEntity>>
 }

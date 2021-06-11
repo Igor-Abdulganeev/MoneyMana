@@ -18,3 +18,9 @@ fun View.changeColor(context: Context, color: Int) {
 
 fun Int.getPercentage(sum: Int) = times(100).div(if (sum != 0) sum else 1)
 
+fun Long.toBool(): Boolean =
+    when (this) {
+        1L -> true
+        0L -> false
+        else -> false
+    }

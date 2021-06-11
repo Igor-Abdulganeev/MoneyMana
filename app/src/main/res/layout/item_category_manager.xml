@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_category_manager_background">
+
+    <ImageView
+        android:id="@+id/category_imageview"
+        android:layout_width="64dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/money_textinput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/beaker_check" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/money_textinput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/category_imageview"
+        app:layout_constraintTop_toTopOf="@+id/category_imageview"
+        android:layout_gravity="top">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/category_name_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:textSize="20sp"
+            android:inputType="text"
+            android:textColor="@color/white_light"
+            android:labelFor="@id/money_textinput"
+            tools:text="Наименование категории" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/budget_edittext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:inputType="number"
+        android:textColor="@color/white_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/money_textinput"
+        app:layout_constraintTop_toBottomOf="@+id/money_textinput"
+        tools:text="0" />
+
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/light_grey"
+        android:text="@string/apply_text_button"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/budget_edittext" />
+
+    <CheckedTextView
+        android:id="@+id/active_checkedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checked_textview"
+        android:textColor="@color/white"
+        android:checked="true"
+        android:gravity="center"
+        android:checkMarkTint="@color/white"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        app:layout_constraintStart_toStartOf="@id/budget_edittext"
+        app:layout_constraintEnd_toStartOf="@id/apply_button"
+        app:layout_constraintTop_toTopOf="@id/apply_button"
+        app:layout_constraintBottom_toBottomOf="@id/apply_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

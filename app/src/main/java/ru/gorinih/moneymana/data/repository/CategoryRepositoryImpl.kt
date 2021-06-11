@@ -1,6 +1,8 @@
 package ru.gorinih.moneymana.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO_PARALLELISM_PROPERTY_NAME
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import ru.gorinih.moneymana.data.db.MDatabase
@@ -21,6 +23,8 @@ class CategoryRepositoryImpl(private val db: MDatabase) : CategoriesRepository {
        // return db.categoriesDao.getActualCategories(startDay, endDay, true)
     }
 */
+    override suspend fun getAllCategories(): Flow<List<CategoryEntity>> =
+        db.categoriesDao.getAllCategories()
 
     override suspend fun insertCategoriesList(items: List<CategoryEntity>) {
         db.categoriesDao.insertCategoriesList(items)
@@ -45,6 +49,12 @@ class CategoryRepositoryImpl(private val db: MDatabase) : CategoriesRepository {
         withContext(Dispatchers.IO) {
             db.categoriesDao.getActualBudget(startDay, endDay)
         }
+
+    override suspend fun updateCategory(item: CategoryEntity) {
+        withContext(Dispatchers.IO) {
+            db.categoriesDao.updateCategory(item)
+        }
+    }
 
 /*
 override suspend fun getCategoriesWithSum(): Flow<List<CategoryPresentation>> =
