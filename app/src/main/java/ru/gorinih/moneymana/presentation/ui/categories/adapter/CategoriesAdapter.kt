@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.gorinih.moneymana.databinding.ItemManaBinding
 import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
-class CategoriesAdapter() : //(private val listener: (ManaCategory) -> Unit) :
+class CategoriesAdapter(private val listener: (Long) -> Unit) :
     RecyclerView.Adapter<CategoriesViewHolder>() {
 
     private var items = listOf<CategoryPresentation>()
@@ -17,12 +17,11 @@ class CategoriesAdapter() : //(private val listener: (ManaCategory) -> Unit) :
             ItemManaBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
-            //   ,listener
         )
     }
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        holder.onBind(items[position])
+        holder.bind(items[position], listener)
     }
 
     override fun getItemCount(): Int = items.size

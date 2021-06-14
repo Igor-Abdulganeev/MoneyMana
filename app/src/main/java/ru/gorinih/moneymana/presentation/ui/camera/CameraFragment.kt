@@ -76,13 +76,19 @@ class CameraFragment : Fragment() {
             moneyTextedit.addTextChangedListener { enabledButton() }
             exitButton.setOnClickListener { activity?.onBackPressed() }
             confirmButton.setOnClickListener { addNewCheck() }
+            dateTextedit.setText(cameraViewModel.getCurrentDate())
         }
     }
 
     private fun addNewCheck() {
         val selectedSpin = binding.categorySpinner.selectedItem as CategoryScan
         lifecycleScope.launch {
-            if (cameraViewModel.addNewCheck(selectedSpin))
+            if (cameraViewModel.addNewCheck(
+                    selectedSpin,
+                    binding.dateTextedit.text.toString(),
+                    binding.moneyTextedit.text.toString()
+                )
+            )
                 activity?.onBackPressed()
             else
                 navigation.startVibration()

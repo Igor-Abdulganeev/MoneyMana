@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_blue"
+    style="@style/DarkStyle"
+    android:theme="@style/DarkStyle"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/name_category_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/category_imageview"
+        tools:text="Наименование категории" />
+
+    <ImageView
+        android:id="@+id/category_imageview"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16sp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toStartOf="@id/sum_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_category_textview"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        tools:src="@drawable/beaker_check"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/sum_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintStart_toEndOf="@id/category_imageview"
+        app:layout_constraintTop_toTopOf="@id/category_imageview"
+        tools:text="всего потрачено" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:backgroundTint="@color/light_grey"
+        android:background="?android:attr/listDivider"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/category_imageview"
+        app:layout_constraintBottom_toTopOf="@id/categories_recyclerview" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="120dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

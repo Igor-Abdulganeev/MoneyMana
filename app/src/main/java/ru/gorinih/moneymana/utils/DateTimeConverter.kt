@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
- *  используем для работы с датами
+ *  Для работы с датами
  *    setCurrentDateTimeToString() - получает текущую дату и возвращает строку вида
  *     "21.03.2021 23:11"
  *
@@ -16,8 +16,6 @@ import java.util.*
  *
  *   setDateTimeStringFromLong() - из переменной Long возвращает строку вида
  *     "21.03.2021 23:11"
- *
- *     getPeriod() - возвращает объект Period для 0 - текущий, для даты Long - в зависимости от даты
  *
  *     getFirstDay() и getLastDay() - возвращают в формате Long соответственно первый и последний дни
  *     текущего месяца
@@ -63,37 +61,6 @@ class DateTimeConverter {
                 DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.getDefault())
             LocalDateTime.ofEpochSecond(dateTime, 0, ZoneOffset.UTC).format(formatDateTime)
         }
-/*
-data class Period(
-    val month: Int,
-    val year: Int
-)*/
-
-/*
-    fun getPeriod(dateTime: Long): Period {
-        val month: Int
-        val year: Int
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            val currentDate = if (dateTime == 0L) Date()
-            else Date(dateTime * 1000)
-            month = SimpleDateFormat("MM", Locale.getDefault()).format(currentDate).toInt()
-            year = SimpleDateFormat("yyyy", Locale.getDefault()).format(currentDate).toInt()
-        } else {
-            val formatMonth = DateTimeFormatter.ofPattern("MM", Locale.getDefault())
-            val formatYear = DateTimeFormatter.ofPattern("yyyy", Locale.getDefault())
-            if (dateTime == 0L) {
-                month = LocalDateTime.now(ZoneId.systemDefault()).format(formatMonth).toInt()
-                year = LocalDateTime.now(ZoneId.systemDefault()).format(formatYear).toInt()
-            } else {
-                month = LocalDateTime.ofEpochSecond(dateTime, 0, ZoneOffset.UTC).format(formatMonth)
-                    .toInt()
-                year = LocalDateTime.ofEpochSecond(dateTime, 0, ZoneOffset.UTC).format(formatYear)
-                    .toInt()
-            }
-        }
-        return Period(month, year)
-    }
-*/
 
     enum class DayType(val type: Int) {
         FirstDay(0),

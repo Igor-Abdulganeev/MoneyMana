@@ -12,13 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.databinding.ActivityMainBinding
+import ru.gorinih.moneymana.domain.CategoryClicked
 import ru.gorinih.moneymana.presentation.AccessPermissionsActivity
 import ru.gorinih.moneymana.presentation.NavigationActivity
 import ru.gorinih.moneymana.presentation.ui.camera.CameraFragment
 import ru.gorinih.moneymana.presentation.ui.categories.CategoriesFragment
 import ru.gorinih.moneymana.presentation.ui.categoriesmanager.CategoriesManager
+import ru.gorinih.moneymana.presentation.ui.categorydetails.CategoryDetails
 
-class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationActivity {
+class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationActivity,
+    CategoryClicked {
 
     private lateinit var _binding: ActivityMainBinding
     private val binding get() = _binding
@@ -121,6 +124,16 @@ class MainActivity : AppCompatActivity(), AccessPermissionsActivity, NavigationA
                     )
                 }
         }
+    }
+
+    override fun clickCategoryItem(itemId: Long) {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragments_container,
+                CategoryDetails.newInstance(itemId)
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     companion object {

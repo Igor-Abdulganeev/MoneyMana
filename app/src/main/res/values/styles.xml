@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CameraTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorAccent">@color/white_light</item>
+        <item name="boxStrokeColor">@color/white_light</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="hintTextColor">@color/white_light</item>
+        <item name="colorControlActivated">@color/white_light</item>
+    </style>
+
+    <style name="DarkStyle" parent="Theme.MoneyMana">
+        <item name="android:textColor">@color/white_light</item>
+    </style>
+</resources>

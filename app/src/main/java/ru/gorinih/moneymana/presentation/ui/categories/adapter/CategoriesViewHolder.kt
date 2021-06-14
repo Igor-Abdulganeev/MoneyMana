@@ -1,5 +1,6 @@
 package ru.gorinih.moneymana.presentation.ui.categories.adapter
 
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.databinding.ItemManaBinding
@@ -10,43 +11,39 @@ class CategoriesViewHolder(
     private val binding: ItemManaBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(manaCategory: CategoryPresentation) {
+    fun bind(
+        manaCategory: CategoryPresentation,
+        listener: (Long) -> Unit
+    ) {
         with(binding) {
+            manaConstraintLayout.setOnClickListener {
+                listener.invoke(manaCategory.id)
+            }
             itemManaNameTextView.text = manaCategory.title_category
             itemManaImageView.setImageResource(manaCategory.image_category)
             itemManaSumLimitTextView.text = manaCategory.sum_check?.toString() ?: "0"
             val sumRemained: Int = (manaCategory.sum_budget - (manaCategory.sum_check ?: 0)).toInt()
 
-            val textRemained =
-                if (sumRemained >= 0) itemView.context.getString(R.string.text_remained)
-                else itemView.context.getString(R.string.text_overrun)
-                //            itemManaSumRemainedTextView.setTextColor(
-//                ContextCompat.getColor(itemView.context, manaCategory.status)
-//            )
-            itemManaSumRemainedTextView.text =
-                itemView.context.getString(R.string.sum_remained, textRemained, sumRemained)
-
-
-            itemManaCustomProgressBar.progress = sumRemained.getPercentage(manaCategory.sum_budget)
-
-//            manaConstraintLayout.setOnClickListener {
-//                Log.d("CameraFragment", "Вызов фрагмента с id-$manaCategory")
-//                listener.invoke(manaCategory)
-//            }
-/*
-            {
-                val percentRemained: Int = sumRemained.getPercentage()
-                val status: Int = when (percentRemained) {
-                    in 20..50 -> R.color.shiny_yellow_green
-                    in 51..100 -> R.color.indian_green
-                    else -> R.color.pale_red
-                }
-
-                private fun Int.getPercentage() = times(100).div(if (sum_budget != 0) sum_budget else 1)
+            itemSumRemainedTextView.text =
+                itemView.context.getString(R.string.sum_remained, sumRemained)
+            if (sumRemained < 0) {
+                itemRemainedTextView.text = itemView.context.getString(R.string.text_overrun)
+                itemSumRemainedTextView.setTextColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.pale_red
+                    )
+                )
+            } else {
+                itemRemainedTextView.text = itemView.context.getString(R.string.text_remained)
+                itemSumRemainedTextView.setTextColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        R.color.white_light
+                    )
+                )
             }
-*/
-
-
+            itemManaCustomProgressBar.progress = sumRemained.getPercentage(manaCategory.sum_budget)
         }
     }
 

@@ -7,7 +7,7 @@ import ru.gorinih.moneymana.presentation.model.CategoryPresentation
 
 interface CategoriesRepository {
 
-    fun getAllCategoriesName(bool: Boolean): Flow<List<CategoryEntity>>
+    fun getAllCategoriesIsActive(bool: Boolean): Flow<List<CategoryEntity>>
 
     suspend fun insertCategoriesList(items: List<CategoryEntity>)
 
@@ -17,6 +17,10 @@ interface CategoriesRepository {
         firstDay: Long,
         lastDay: Long
     ): Flow<List<CategoryPresentation>>
+
+    suspend fun getCategoryWithSum(
+        categoryId: Long
+    ): Flow<CategoryPresentation>
 
     suspend fun getActualBudget(startDay: Long, endDay: Long): Flow<BudgetPresentation>
 

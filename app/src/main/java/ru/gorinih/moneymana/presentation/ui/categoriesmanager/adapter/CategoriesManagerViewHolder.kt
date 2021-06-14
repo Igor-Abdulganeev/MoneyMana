@@ -1,9 +1,8 @@
 package ru.gorinih.moneymana.presentation.ui.categoriesmanager.adapter
 
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import ru.gorinih.moneymana.R
 import ru.gorinih.moneymana.databinding.ItemCategoryManagerBinding
@@ -43,23 +42,15 @@ class CategoriesManagerViewHolder(private val binding: ItemCategoryManagerBindin
                 activeCheckedTextView.isEnabled = true
                 categoryNameEdittext.isEnabled = true
             }
-            budgetEdittext.setOnKeyListener { _, _, event ->
-                if (budgetEdittext.length() == 0) budgetEdittext.setText("0")
-                when (event.action) {
-                    KeyEvent.ACTION_UP -> {
-                        checkStatus(item, binding)
-                    }
-                    else -> false
-                }
+            budgetEdittext.doOnTextChanged { text, _, _, _ ->
+                if (text?.isEmpty() == true) budgetEdittext.setText("0")
+                checkStatus(item, binding)
             }
-            categoryNameEdittext.setOnKeyListener { _, _, event ->
-                when (event.action) {
-                    KeyEvent.ACTION_UP -> {
-                        checkStatus(item, binding)
-                    }
-                    else -> false
-                }
+
+            categoryNameEdittext.doOnTextChanged { _, _, _, _ ->
+                checkStatus(item, binding)
             }
+
             applyButton.setOnClickListener {
                 listener.invoke(
                     CategoryPresentation(
