@@ -17,10 +17,8 @@ interface ChecksDAO {
 */
 
     //ManaFragmentCategoryRepository
-/*
-    @Query("SELECT * FROM checks WHERE id_category == :idCategory ORDER BY id ASC")
-    fun getAllChecksFromCategory(idCategory: Long): Flow<List<CheckEntity>>?
-*/
+    @Query("SELECT * FROM checks WHERE id_category == :categoryId ORDER BY date_check DESC")
+    fun getChecksFromCategory(categoryId: Long): Flow<List<CheckEntity>>?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(checkEntity: CheckEntity)

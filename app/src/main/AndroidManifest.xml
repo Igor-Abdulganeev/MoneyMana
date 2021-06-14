@@ -11,10 +11,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MoneyMana">
+        android:theme="@style/Theme.MoneyMana"
+        android:fullBackupContent="@xml/money_mana_backup_rules">
         <activity
             android:name="ru.gorinih.moneymana.presentation.ui.MainActivity"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

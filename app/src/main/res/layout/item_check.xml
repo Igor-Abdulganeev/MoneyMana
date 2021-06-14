@@ -1,0 +1,43 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/dark_blue"
+    style="@style/DarkStyle"
+    android:theme="@style/DarkStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/check_image_view"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/file_check_outline"
+        tools:src="@drawable/file_check_outline"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/check_datetime_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/check_sum_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/check_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="DateTime" />
+
+    <TextView
+        android:id="@+id/check_sum_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/check_datetime_textview"
+        app:layout_constraintTop_toBottomOf="@id/check_datetime_textview"
+        tools:text="sum" />
+</androidx.constraintlayout.widget.ConstraintLayout>

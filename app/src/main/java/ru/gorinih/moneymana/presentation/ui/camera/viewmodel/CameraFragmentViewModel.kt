@@ -40,7 +40,7 @@ class CameraFragmentViewModel(
     @InternalCoroutinesApi
     fun getListCategories() {
         viewModelScope.launch {
-            repoCategory.getAllCategoriesName(true)
+            repoCategory.getAllCategoriesIsActive(true)
                 .map {
                     mapperCategoriesEntityToScan(it)
                 }
@@ -78,18 +78,32 @@ class CameraFragmentViewModel(
         )
     }
 
-    //            dayCheck = dateTime.setDateStringToLong(newCheck.dateCheck.substring(0, 10)),
-    suspend fun addNewCheck(categoryCheck: CategoryScan): Boolean {
-        val check = CheckEntity(
-            id = null,
-            idCategory = categoryCheck.id ?: 1,
-            dayCheck = dateTime.setDateStringToLong(newCheck.dateCheck.substring(0, 10)),
-            dateCheck = dateTime.setDateTimeStringToLong(newCheck.dateCheck),
-            sumCheck = newCheck.sumCheck,
-            fnCheck = newCheck.fnCheck,
-            iCheck = newCheck.iCheck,
-            fpCheck = newCheck.fpCheck
-        )
+    suspend fun addNewCheck(categoryCheck: CategoryScan, date: String, sum: String): Boolean {
+        val check: CheckEntity
+        if (newCheck.dateCheck.isEmpty() || newCheck.dateCheck != date) {
+            check = CheckEntity(
+                id = null,
+                idCategory = categoryCheck.id ?: 1,
+                dayCheck = dateTime.setDateStringToLong(date.substring(0, 10)),
+                dateCheck = dateTime.setDateTimeStringToLong(date),
+                sumCheck = sum.toDouble(),
+                fnCheck = 0L,
+                iCheck = 0L,
+                fpCheck = 0L
+            )
+        } else {
+            check = CheckEntity(
+                id = null,
+                idCategory = categoryCheck.id ?: 1,
+                dayCheck = dateTime.setDateStringToLong(newCheck.dateCheck.substring(0, 10)),
+                dateCheck = dateTime.setDateTimeStringToLong(newCheck.dateCheck),
+                sumCheck = newCheck.sumCheck,
+                fnCheck = newCheck.fnCheck,
+                iCheck = newCheck.iCheck,
+                fpCheck = newCheck.fpCheck
+            )
+        }
+
         return insertCheck(check)
     }
 
@@ -100,10 +114,11 @@ class CameraFragmentViewModel(
         return job.await()
     }
 
-
     private fun setNewCheck(scanCheck: CheckScan) {
         newCheck = scanCheck
     }
+
+    fun getCurrentDate() = dateTime.setCurrentDateTimeToString()
 
     companion object {
         private var newCheck = CheckScan("", CategoryScan(0, 0, ""), 0.0, 0, 0, 0)

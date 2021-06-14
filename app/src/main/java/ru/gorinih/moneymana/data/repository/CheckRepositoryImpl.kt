@@ -1,7 +1,7 @@
 package ru.gorinih.moneymana.data.repository
 
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import ru.gorinih.moneymana.data.db.MDatabase
 import ru.gorinih.moneymana.data.model.CheckEntity
@@ -12,11 +12,8 @@ class CheckRepositoryImpl(private val db: MDatabase) : CheckRepository {
     override fun testCheck(dateCheck: Long, sumCheck: Double): Boolean {
         var bool = false
         val list = db.checksDao.testCheck(dateCheck, sumCheck)
-        Log.d("QWERTY", "$list = ")
         list?.let {
             bool = true
-            Log.d("QWERTY", "$list == $bool ")
-
         }
         return bool
     }
@@ -29,4 +26,8 @@ class CheckRepositoryImpl(private val db: MDatabase) : CheckRepository {
             return@withContext true
         }
     }
+
+    override fun getChecksFromCategory(categoryId: Long): Flow<List<CheckEntity>>? =
+        db.checksDao.getChecksFromCategory(categoryId = categoryId)
+
 }

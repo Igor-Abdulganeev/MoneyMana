@@ -7,6 +7,19 @@
     android:layout_height="wrap_content"
     tools:background="@color/dark_blue">
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:backgroundTint="@color/light_grey"
+        android:background="?android:attr/listDivider"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/item_mana_image_view"
         android:layout_width="0dp"
@@ -16,7 +29,7 @@
         android:src="@drawable/food"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -29,25 +42,37 @@
         app:layout_constraintBottom_toTopOf="@id/item_mana_custom_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
-        android:id="@+id/item_mana_sum_remained_text_view"
+        android:id="@+id/item_remained_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/light_light_grey"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/item_sum_remained_text_view"
+        app:layout_constraintEnd_toStartOf="@id/item_sum_remained_text_view"
+        tools:text="остаток: " />
+
+    <TextView
+        android:id="@+id/item_sum_remained_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/item_mana_custom_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="остаток: 8000" />
+        tools:text="8000" />
 
     <TextView
         android:id="@+id/item_mana_sum_limit_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/item_mana_custom_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="10000" />

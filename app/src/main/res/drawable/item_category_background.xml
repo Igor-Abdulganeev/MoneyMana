@@ -5,7 +5,7 @@
     <stroke
         android:color="@color/primaryColor"
         android:width="2dp" />
-    <solid android:color="@color/white" />
+    <solid android:color="@color/dark_blue" />
     <padding
         android:right="10dp"
         android:left="10dp" />
